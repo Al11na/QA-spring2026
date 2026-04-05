@@ -122,11 +122,11 @@ golangci-lint run
 
 | Тест                                              | Статус | Причина                                     |
 |---------------------------------------------------|--------|---------------------------------------------|
-| TestTC003_CreateItem_NegativePrice                | FAIL   | BUG-003: API принимает отрицательную цену   |
-| TestTC304_GetStatistic_AfterDelete                | FAIL   | BUG-008: статистика доступна после удаления |
-| TestTC401_DeleteItem_Success                      | FAIL   | BUG-009: DELETE не возвращает поле status   |
-| TestTC006_CreateItem_MinSellerID                  | SKIP   | BUG-006: API зависает при sellerID=111111   |
-| TestTC303_GetStatistic_NotFound                   | SKIP   | BUG-007: API возвращает 504 timeout         |
+| TestTC003_CreateItem_NegativePrice                | FAIL   | BUG-002: API принимает отрицательную цену   |
+| TestTC304_GetStatistic_AfterDelete                | FAIL   | BUG-007: статистика доступна после удаления |
+| TestTC401_DeleteItem_Success                      | FAIL   | BUG-008: DELETE не возвращает поле status   |
+| TestTC006_CreateItem_MinSellerID                  | SKIP   | BUG-005: API зависает при sellerID=111111   |
+| TestTC303_GetStatistic_NotFound                   | SKIP   | BUG-006: API возвращает 504 timeout         |
 
 Подробное описание всех дефектов — в файле `BUGS.md`.
 
