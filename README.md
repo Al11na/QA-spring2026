@@ -50,7 +50,35 @@ go test -v -timeout 120s
 Запустить конкретный тест:
 
 ```bash
-go test -v -run TestTC001_CreateItem_Success
+go test -v -run TestAPISuite/APISuite/Tests/TestTC001
+```
+
+## Allure отчёт
+
+Установить Allure CLI (требуется Java):
+
+```bash
+# Windows (Scoop)
+scoop install allure
+
+# Mac
+brew install allure
+```
+
+Запустить тесты с сохранением результатов:
+
+```bash
+# Windows (PowerShell)
+$env:ALLURE_OUTPUT_PATH="."; go test -v -timeout 120s
+
+# Mac / Linux
+ALLURE_OUTPUT_PATH=. go test -v -timeout 120s
+```
+
+Открыть отчёт:
+
+```bash
+allure serve allure-results
 ```
 
 ## Статический анализ кода
@@ -63,13 +91,18 @@ golangci-lint run
 
 ## Структура проекта
 
-| Файл             | Описание                          |
-|------------------|-----------------------------------|
-| `main_test.go`   | Все автоматизированные тест-кейсы |
-| `TESTCASES.md`   | Описание тест-кейсов              |
-| `BUGS.md`        | Найденные дефекты                 |
-| `Task1_bugs.md`  | Баги из задания 1 (UI)            |
-| `.golangci.yml`  | Конфигурация линтера              |
+| Файл                | Описание                                  |
+|---------------------|-------------------------------------------|
+| `main_test.go`      | Структуры, хелперы, точка входа suite     |
+| `post_test.go`      | Тесты POST /api/1/item (TC-001..TC-010)   |
+| `get_item_test.go`  | Тесты GET /api/1/item/{id} (TC-101..TC-105) |
+| `get_seller_test.go`| Тесты GET /api/1/{sellerID}/item (TC-201..TC-203) |
+| `statistic_test.go` | Тесты GET /api/1/statistic/{id} (TC-301..TC-304) |
+| `delete_test.go`    | Тесты DELETE /api/2/item/{id} (TC-401..TC-402) |
+| `TESTCASES.md`      | Описание тест-кейсов                      |
+| `BUGS.md`           | Найденные дефекты (9 багов)               |
+| `Task1_bugs.md`     | Баги из задания 1 (UI)                    |
+| `.golangci.yml`     | Конфигурация линтера                      |
 
 ## Покрытие
 
@@ -87,22 +120,15 @@ golangci-lint run
 
 При запуске тестов часть из них упадёт - это ожидаемо, так как они фиксируют баги API:
 
-| Тест                            | Статус  | Причина                                      |
-|---------------------------------|---------|----------------------------------------------|
-| TestTC003_CreateItem_NegativePrice | FAIL | BUG-003: API принимает нулевую цену          |
-| TestTC304_GetStatistic_AfterDelete | FAIL | BUG-304: статистика доступна после удаления  |
-| TestTC401_DeleteItem_Success       | FAIL | BUG-401: DELETE не возвращает поле status    |
-| TestTC006_CreateItem_MinSellerID   | SKIP | API зависает при sellerID=111111             |
-| TestTC303_GetStatistic_NotFound    | SKIP | API возвращает 504 timeout                   |
+| Тест                                              | Статус | Причина                                     |
+|---------------------------------------------------|--------|---------------------------------------------|
+| TestTC003_CreateItem_NegativePrice                | FAIL   | BUG-003: API принимает отрицательную цену   |
+| TestTC304_GetStatistic_AfterDelete                | FAIL   | BUG-008: статистика доступна после удаления |
+| TestTC401_DeleteItem_Success                      | FAIL   | BUG-009: DELETE не возвращает поле status   |
+| TestTC006_CreateItem_MinSellerID                  | SKIP   | BUG-006: API зависает при sellerID=111111   |
+| TestTC303_GetStatistic_NotFound                   | SKIP   | BUG-007: API возвращает 504 timeout         |
 
 Подробное описание всех дефектов — в файле `BUGS.md`.
-
-## Найденные баги
-
-Всего найдено **7 дефектов**:
-
-- **Major (4):** пустое имя, отрицательная цена, нулевая цена, утечка данных после удаления
-- **Minor (3):** неверные HTTP-коды для невалидных ID, отсутствие поля status в ответе DELETE
 
 ## Окружение
 
