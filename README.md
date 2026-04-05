@@ -47,12 +47,6 @@ go test -v
 go test -v -timeout 120s
 ```
 
-Запустить конкретный тест:
-
-```bash
-go test -v -run TestAPISuite/APISuite/Tests/TestTC001
-```
-
 ## Allure отчёт
 
 Установить Allure CLI (требуется Java):
@@ -126,6 +120,7 @@ golangci-lint run
 | TestTC304_GetStatistic_AfterDelete                | FAIL   | BUG-007: статистика доступна после удаления |
 | TestTC401_DeleteItem_Success                      | FAIL   | BUG-008: DELETE не возвращает поле status   |
 | TestTC006_CreateItem_MinSellerID                  | SKIP   | BUG-005: API зависает при sellerID=111111   |
+| TestTC007_CreateItem_MissingStatistics            | SKIP   | BUG-003: API зависает при отсутствии statistics |
 | TestTC303_GetStatistic_NotFound                   | SKIP   | BUG-006: API возвращает 504 timeout         |
 
 Подробное описание всех дефектов — в файле `BUGS.md`.
